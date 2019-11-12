@@ -1,8 +1,12 @@
+package com.mst.library.app;
+
+import com.mst.library.model.Book;
+
 public class Library {
     public static void main(String[] args) {
 
 
-        final String appName = "Library v0.4";
+        final String appName = "com.mst.library.app.Library v0.5";
 
         Book book1 = new Book("Core Java Volume 1 - Fundamentals", "Cay S. Horstman",
                 2016, 872, "Pearson Education", "9788373271890");
