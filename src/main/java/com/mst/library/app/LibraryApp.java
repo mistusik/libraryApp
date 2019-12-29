@@ -2,9 +2,11 @@ package com.mst.library.app;
 
 public class LibraryApp {
 
+   private static final String APP_NAME = "Library v1.4";
+
     public static void main(String[] args) {
-        final String appName = "Library v0.9";
-        System.out.println(appName);
+
+        System.out.println(APP_NAME);
         LibraryControl libControl = new LibraryControl();
         libControl.controlLoop();
     }

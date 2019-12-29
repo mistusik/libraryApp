@@ -1,6 +1,7 @@
 package com.mst.library.io;
 
 import com.mst.library.model.Book;
+import com.mst.library.model.Magazine;
 
 import java.util.Scanner;
 
@@ -21,6 +22,22 @@ public class DataReader {
         System.out.println("Pages");
         int pages = getInt();
         return new Book (title, author, releaseDate, pages, publisher, isbn);
+    }
+
+    public Magazine readAndCreateMagazine(){
+        System.out.println("Title");
+        String title = sc.nextLine();
+        System.out.println("Publisher");
+        String publisher = sc.nextLine();
+        System.out.println("Language");
+        String language = sc.nextLine();
+        System.out.println("Year of release ");
+        int year = getInt();
+        System.out.println("Month");
+        int month = getInt();
+        System.out.println("Day");
+        int day = getInt();
+        return new Magazine (title, publisher, language, year, month, day);
     }
 
     public int getInt(){
