@@ -13,9 +13,10 @@ import java.util.InputMismatchException;
 public class LibraryControl {
 
 
-    private DataReader dataReader = new DataReader();
-    private Library library = new Library();
     private ConsolePrinter printer = new ConsolePrinter();
+    private DataReader dataReader = new DataReader(printer);
+    private Library library = new Library();
+
 
     public void controlLoop(){
         Option option;
@@ -40,7 +41,7 @@ public class LibraryControl {
                     printMagazines();
                     break;
                 default:
-                    System.out.println("Wrong option, try again");
+                    printer.printLine("Wrong option, try again");
             }
 
         }while (option != Option.EXIT);
@@ -70,12 +71,18 @@ public class LibraryControl {
 
 
     private void addMagazine() {
-        Magazine magazine = dataReader.readAndCreateMagazine();
-        library.addMagazine(magazine);
+        try {
+            Magazine magazine = dataReader.readAndCreateMagazine();
+            library.addMagazine(magazine);
+        } catch (InputMismatchException e) {
+            printer.printLine("Adding the magazine was unsuccessful ");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            printer.printLine("Magazines limit int the library has been reached. You cannot add any more magazines. ");
+        }
     }
 
     private void exit() {
-        System.out.println("End");
+        printer.printLine("End");
         dataReader.close();
     }
 
@@ -85,14 +92,20 @@ public class LibraryControl {
     }
 
     private void addBook() {
-        Book book = dataReader.readAndCreateBook();
-        library.addBook(book);
+        try {
+            Book book = dataReader.readAndCreateBook();
+            library.addBook(book);
+        } catch (InputMismatchException e) {
+            printer.printLine("Adding the book was unsuccessful ");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            printer.printLine("Books limit int the library has been reached. You cannot add any more books. ");
+        }
     }
 
     private void printOptions() {
-        System.out.println("Choose options.");
-        for (Option value : Option.values()) {
-            System.out.println(value);
+        printer.printLine("Choose options.");
+        for (Option option : Option.values()) {
+            printer.printLine(option.toString());
         }
     }
 }

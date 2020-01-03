@@ -2,7 +2,7 @@ package com.mst.library.app;
 
 public class LibraryApp {
 
-   private static final String APP_NAME = "Library v1.5";
+   private static final String APP_NAME = "Library v1.51";
 
     public static void main(String[] args) {
 
