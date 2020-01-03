@@ -10,45 +10,28 @@ public class Library {
     private int publicationsNumber;
     private Publication[] publications = new Publication[MAX_PUBLICATIONS];
 
+    public Publication[] getPublications() {
+        Publication[] result =new Publication[MAX_PUBLICATIONS];
+        for (int i = 0; i < result.length; i++) {
+            result [i] = publications[i];
+        }
+        return result;
+    }
+
     public void addBook (Book book){
-        if (publicationsNumber< MAX_PUBLICATIONS){
-            publications[publicationsNumber] = book;
-            publicationsNumber++;
-        }else {
-            System.out.println("Max books limit has been reached");
-        }
+     addPublication(book);
     }
-    public void printBooks(){
-        int countBooks = 0;
-        for (int i = 0; i < publicationsNumber; i++) {
-            if (publications[i] instanceof Book){
-                System.out.println(publications[i]);
-                countBooks++;
-            }
-        }
-        if (countBooks==0){
-            System.out.println("No books in the library.");
-        }
-    }
+
     public void addMagazine (Magazine magazine){
-        if (publicationsNumber< MAX_PUBLICATIONS){
-            publications[publicationsNumber] = magazine;
-            publicationsNumber++;
-        }else {
-            System.out.println("Max magazines limit has been reached.");
+        addPublication(magazine);
         }
-    }
-    public void printMagazines(){
-        int countMagazines = 0;
-        for (int i = 0; i < publicationsNumber; i++) {
-            if (publications[i] instanceof Magazine){
-                System.out.println(publications[i]);
-                countMagazines++;
-            }
-        }
-        if (countMagazines==0){
-            System.out.println("No Magazines in the library.");
-        }
-    }
+
+   private void addPublication(Publication publication){
+        if (publicationsNumber>=MAX_PUBLICATIONS){
+            throw new ArrayIndexOutOfBoundsException("Max publications exceeded " + MAX_PUBLICATIONS);
+       }
+       publications[publicationsNumber] = publication;
+       publicationsNumber++;
+   }
 
 }

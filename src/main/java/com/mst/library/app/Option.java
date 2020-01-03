@@ -1,5 +1,7 @@
 package com.mst.library.app;
 
+import com.mst.library.exception.NoSuchOptionException;
+
 public enum Option {
     EXIT(0, "EXIT"),
     ADD_BOOK(1, " Add book"),
@@ -27,10 +29,11 @@ public enum Option {
     public String toString() {
         return value + " - " + description;
     }
-    static Option createFromInt(int option){
+    static Option createFromInt(int option) throws NoSuchOptionException {
+        try{
         return Option.values()[option];
+        }catch (ArrayIndexOutOfBoundsException e) {
+            throw new NoSuchOptionException("No such an option - " + option);
         }
-
-
-
+        }
 }
