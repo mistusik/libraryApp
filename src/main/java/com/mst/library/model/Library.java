@@ -1,8 +1,9 @@
 package com.mst.library.model;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
 
-public class Library {
+import java.io.Serializable;
+
+public class Library implements Serializable {
 
 
 

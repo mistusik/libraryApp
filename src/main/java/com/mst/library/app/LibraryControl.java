@@ -1,8 +1,12 @@
 package com.mst.library.app;
 
+import com.mst.library.exception.DataExportException;
+import com.mst.library.exception.DataImportException;
 import com.mst.library.exception.NoSuchOptionException;
 import com.mst.library.io.ConsolePrinter;
 import com.mst.library.io.DataReader;
+import com.mst.library.io.file.FileManager;
+import com.mst.library.io.file.FileManagerBuilder;
 import com.mst.library.model.Book;
 import com.mst.library.model.Library;
 import com.mst.library.model.Magazine;
@@ -15,10 +19,24 @@ public class LibraryControl {
 
     private ConsolePrinter printer = new ConsolePrinter();
     private DataReader dataReader = new DataReader(printer);
-    private Library library = new Library();
+    private FileManager fileManager;
+
+    private Library library;
+
+     LibraryControl() {
+        fileManager = new FileManagerBuilder(printer, dataReader).build();
+        try{
+            library = fileManager.importData();
+            printer.printLine("Data import successful: ");
+        }catch (DataImportException e){
+            printer.printLine(e.getMessage());
+            printer.printLine("New data base initialized: ");
+            library = new Library();
+        }
+    }
 
 
-    public void controlLoop(){
+     void controlLoop(){
         Option option;
 
         do{
@@ -55,7 +73,7 @@ public class LibraryControl {
                 option = Option.createFromInt(dataReader.getInt());
                 optionOk = true;
             }catch (NoSuchOptionException e){
-                printer.printLine(e.getMessage());
+                printer.printLine(e.getMessage() + "Try again! ");
             }catch (InputMismatchException e){
                 printer.printLine("Value you entered is not a number. Please try again. ");
             }
@@ -82,6 +100,12 @@ public class LibraryControl {
     }
 
     private void exit() {
+         try {
+             fileManager.exportData(library);
+             printer.printLine("Successful data export:");
+         }catch (DataExportException e){
+             printer.printLine(e.getMessage());
+         }
         printer.printLine("End");
         dataReader.close();
     }
@@ -108,4 +132,34 @@ public class LibraryControl {
             printer.printLine(option.toString());
         }
     }
+
+    private enum Option {
+        EXIT(0, "EXIT"),
+        ADD_BOOK(1, " Add book"),
+        ADD_MAGAZINE(2, " Add magazine"),
+        PRINT_BOOKS(3, " Print books"),
+        PRINT_MAGAZINES(4, " Print magazines");
+
+        private final int value;
+        private final String description;
+
+        Option(int value, String description) {
+            this.value = value;
+            this.description = description;
+        }
+
+
+        @Override
+        public String toString() {
+            return value + " - " + description;
+        }
+        static Option createFromInt(int option) throws NoSuchOptionException {
+            try{
+                return Option.values()[option];
+            }catch (ArrayIndexOutOfBoundsException e) {
+                throw new NoSuchOptionException("No such an option - " + option);
+            }
+        }
+    }
+
 }
