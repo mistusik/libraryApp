@@ -7,7 +7,7 @@ import com.mst.library.model.Library;
 import java.io.*;
 
 public class SerializableFileManager implements FileManager {
-    private static final String FILE_NAME = "Library.txt";
+    private static final String FILE_NAME = "Library.abc";
 
     @Override
     public void exportData(Library library) {
@@ -19,7 +19,7 @@ public class SerializableFileManager implements FileManager {
         } catch (FileNotFoundException e) {
             throw new DataExportException("No such file - " + FILE_NAME);
         } catch (IOException e) {
-            throw new DataExportException("Unable make changes to the file - " + FILE_NAME);
+            throw new DataExportException("Unable to make changes to the file - " + FILE_NAME);
         }
     }
 

@@ -2,6 +2,7 @@ package com.mst.library.app;
 
 import com.mst.library.exception.DataExportException;
 import com.mst.library.exception.DataImportException;
+import com.mst.library.exception.InvalidDataException;
 import com.mst.library.exception.NoSuchOptionException;
 import com.mst.library.io.ConsolePrinter;
 import com.mst.library.io.DataReader;
@@ -28,7 +29,7 @@ public class LibraryControl {
         try{
             library = fileManager.importData();
             printer.printLine("Data import successful: ");
-        }catch (DataImportException e){
+        }catch (DataImportException | InvalidDataException e){
             printer.printLine(e.getMessage());
             printer.printLine("New data base initialized: ");
             library = new Library();
@@ -91,7 +92,7 @@ public class LibraryControl {
     private void addMagazine() {
         try {
             Magazine magazine = dataReader.readAndCreateMagazine();
-            library.addMagazine(magazine);
+            library.addPublication(magazine);
         } catch (InputMismatchException e) {
             printer.printLine("Adding the magazine was unsuccessful ");
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -106,9 +107,9 @@ public class LibraryControl {
          }catch (DataExportException e){
              printer.printLine(e.getMessage());
          }
-        printer.printLine("End");
         dataReader.close();
-    }
+        printer.printLine("End");
+     }
 
     private void printBooks() {
         Publication[] publications = library.getPublications();
@@ -118,7 +119,7 @@ public class LibraryControl {
     private void addBook() {
         try {
             Book book = dataReader.readAndCreateBook();
-            library.addBook(book);
+            library.addPublication(book);
         } catch (InputMismatchException e) {
             printer.printLine("Adding the book was unsuccessful ");
         } catch (ArrayIndexOutOfBoundsException e) {

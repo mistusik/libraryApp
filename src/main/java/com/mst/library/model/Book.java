@@ -3,7 +3,7 @@ package com.mst.library.model;
 import java.util.Objects;
 
 public class Book extends Publication {
-
+    public static final String TYPE = "Book";
     private String author;
     private int pages;
     private String isbn;
@@ -21,7 +21,18 @@ public class Book extends Publication {
 
     @Override
     public String toString() {
-        return super.toString() + "; " + author + "; " + pages + "; " + isbn;
+        return super.toString()  + author + "; " + pages + "; " + isbn;
+    }
+
+    @Override
+    public String toCsv() {
+        return (TYPE + ";") +
+                getTitle() + ";" +
+                getPublisher() + ";" +
+                getYear() + ";" +
+                author + ";" +
+                pages + ";" +
+                isbn + "";
     }
 
     @Override
