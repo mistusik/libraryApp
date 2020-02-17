@@ -50,14 +50,20 @@ public class LibraryControl {
                 case PRINT_BOOKS:
                     printBooks();
                     break;
-                case EXIT:
-                    exit();
-                    break;
                 case ADD_MAGAZINE:
                     addMagazine();
                     break;
                 case  PRINT_MAGAZINES:
                     printMagazines();
+                    break;
+                case DELETE_BOOK:
+                    deleteBook();
+                    break;
+                case DELETE_MAGAZINE:
+                    deleteMagazine();
+                    break;
+                case EXIT:
+                    exit();
                     break;
                 default:
                     printer.printLine("Wrong option, try again");
@@ -65,6 +71,7 @@ public class LibraryControl {
 
         }while (option != Option.EXIT);
     }
+
 
     private Option getOption() {
         boolean optionOk = false;
@@ -100,6 +107,18 @@ public class LibraryControl {
         }
     }
 
+    private void deleteMagazine() {
+         try {
+             Magazine magazine = dataReader.readAndCreateMagazine();
+             if (library.removePublication(magazine))
+                 printer.printLine("Magazine delated. ");
+             else
+                 printer.printLine("Unable to find this magazine. ");
+         }catch (InputMismatchException e){
+             printer.printLine("Incorrect data entered. ");
+         }
+     }
+
     private void exit() {
          try {
              fileManager.exportData(library);
@@ -127,6 +146,20 @@ public class LibraryControl {
         }
     }
 
+
+    private void deleteBook() {
+        try {
+            Book book = dataReader.readAndCreateBook();
+            if (library.removePublication(book))
+                printer.printLine("Book delated. ");
+            else
+                printer.printLine("Unable to find this book. ");
+        }catch (InputMismatchException e){
+            printer.printLine("Incorrect data entered. ");
+        }
+
+    }
+
     private void printOptions() {
         printer.printLine("Choose options.");
         for (Option option : Option.values()) {
@@ -139,7 +172,9 @@ public class LibraryControl {
         ADD_BOOK(1, " Add book"),
         ADD_MAGAZINE(2, " Add magazine"),
         PRINT_BOOKS(3, " Print books"),
-        PRINT_MAGAZINES(4, " Print magazines");
+        PRINT_MAGAZINES(4, " Print magazines"),
+        DELETE_BOOK(5, " Delete book"),
+        DELETE_MAGAZINE(6, " Delete magazine");
 
         private final int value;
         private final String description;
